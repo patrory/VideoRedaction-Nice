@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+<py-env>
+    - matplotlib
+    - imageio
+    - numpy
+    - scipy
+</py-env>
+</head>
+<body>
+ <input type="file" accept="video/*" id="fileInput"/>
+<hr>
+<video controls id="video-tag">
+  <source id="video-source" src="splashVideo">
+  Your browser does not support the video tag.
+</video>
+<py-script>
+    import asyncio
+    import js
+    from js import document , FileReader
+    from pyodide import create_proxy
+
+    def read_complete(event) :
+        video-tag = document.getElementById("video-tag")
+        videoSrc.src = event.target.result
+
+    async def process_file(x):
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        onload_event = create_proxy(read_complete)
+        reader.onload = onload_event
+        reader.readAsDataURL(file);
+        return 
+    def main() :
+        # create a Python proxy for call back function
+        file_event = create_proxy(process_file)
+        const fileInput = document.getElementById("fileInput");
+        fileInput.addEventListener("change", handleFileSelect, false);
+
+    main()
+
+</py-script>
+</body>
+</html>
